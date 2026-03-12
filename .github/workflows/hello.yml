@@ -1,0 +1,25 @@
+#This is workflow name
+name: Adnan khan
+
+# Runs on a trigger
+on: 
+  push:
+    branches: [main]
+    
+#these are jobs inside workflow
+jobs:
+
+#These are the name of jobs
+  greet:
+  
+    #This is github runner, every jobs runs on a runner
+    runs-on: ubuntu-latest
+    steps:
+      - name: say my name
+        run: echo "MOHAMMAD ADNAN KHAN"
+
+      - name: say my nickname
+        run : echo "$USER"
+        
+    
+
