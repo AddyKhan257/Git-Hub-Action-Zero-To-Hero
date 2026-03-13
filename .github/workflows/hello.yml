@@ -17,7 +17,7 @@ jobs:
       - name: say my name
         run: echo "MOHAMMAD ADNAN KHAN"
 
-      - name: say my nickname
+      - name: username
         run : echo "$USER"
         
     
