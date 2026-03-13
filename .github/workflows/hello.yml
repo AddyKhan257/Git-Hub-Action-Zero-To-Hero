@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: say my name
-        run: echo " ADNAN KHAN"
+        run: echo "MOHAMMAD ADNAN KHAN"
 
       - name: say my nickname
         run : echo "$USER"
