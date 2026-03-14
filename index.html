@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mohammad Adnan Khan — DevOps Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #050810;
+  --bg2: #080d1a;
+  --surface: #0d1526;
+  --border: #1a2840;
+  --accent: #3b82f6;
+  --accent2: #8b5cf6;
+  --accent3: #06b6d4;
+  --green: #10b981;
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --glow: rgba(59,130,246,0.15);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CUSTOM CURSOR */
+.cursor{
+  position:fixed;width:12px;height:12px;
+  background:var(--accent);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transition:transform 0.1s ease;
+  mix-blend-mode:screen;
+}
+.cursor-trail{
+  position:fixed;width:32px;height:32px;
+  border:1px solid rgba(59,130,246,0.4);
+  border-radius:50%;pointer-events:none;
+  z-index:9998;transition:all 0.15s ease;
+}
+
+/* NOISE OVERLAY */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;opacity:0.4;
+}
+
+/* GRID BACKGROUND */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:20px 60px;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(5,8,16,0.8);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;
+  font-weight:800;font-size:18px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-0.5px;
+}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{
+  font-size:12px;color:var(--muted);text-decoration:none;
+  letter-spacing:2px;text-transform:uppercase;
+  transition:color 0.3s;
+}
+.nav-links a:hover{color:var(--accent);}
+
+/* HERO */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:120px 60px 60px;
+  position:relative;z-index:2;
+}
+
+.hero-content{max-width:900px;}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;
+  border:1px solid var(--border);
+  border-radius:100px;
+  font-size:11px;letter-spacing:2px;
+  color:var(--accent);text-transform:uppercase;
+  margin-bottom:32px;
+  background:rgba(59,130,246,0.05);
+  animation:fadeUp 0.6s ease both;
+}
+.hero-badge .dot{
+  width:6px;height:6px;background:var(--green);
+  border-radius:50%;animation:pulse 2s infinite;
+}
+
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.5);}}
+
+.hero-name{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(48px,8vw,96px);
+  font-weight:800;line-height:0.95;
+  letter-spacing:-3px;
+  animation:fadeUp 0.6s 0.1s ease both;
+}
+.hero-name .first{color:var(--text);}
+.hero-name .last{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+.hero-role{
+  margin-top:20px;
+  font-size:16px;color:var(--muted);
+  letter-spacing:1px;
+  animation:fadeUp 0.6s 0.2s ease both;
+}
+.hero-role span{color:var(--accent);}
+
+.hero-desc{
+  margin-top:28px;
+  font-size:14px;color:var(--muted);
+  line-height:1.8;max-width:580px;
+  font-family:'JetBrains Mono',monospace;
+  animation:fadeUp 0.6s 0.3s ease both;
+}
+
+.hero-terminal{
+  margin-top:36px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  max-width:580px;
+  animation:fadeUp 0.6s 0.4s ease both;
+  box-shadow:0 0 40px rgba(59,130,246,0.08);
+}
+.terminal-header{
+  padding:10px 16px;
+  background:rgba(255,255,255,0.03);
+  border-bottom:1px solid var(--border);
+  display:flex;gap:8px;align-items:center;
+}
+.terminal-dot{width:10px;height:10px;border-radius:50%;}
+.terminal-dot.red{background:#ff5f57;}
+.terminal-dot.yellow{background:#febc2e;}
+.terminal-dot.green{background:#28c840;}
+.terminal-title{
+  font-size:11px;color:var(--muted);
+  margin-left:8px;letter-spacing:1px;
+}
+.terminal-body{padding:20px;font-size:13px;line-height:2;}
+.t-prompt{color:var(--accent);}
+.t-cmd{color:var(--text);}
+.t-output{color:var(--green);}
+.t-comment{color:var(--muted);}
+.t-var{color:var(--accent2);}
+.cursor-blink{
+  display:inline-block;width:8px;height:14px;
+  background:var(--accent);
+  animation:blink 1s infinite;vertical-align:middle;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+.hero-cta{
+  margin-top:36px;display:flex;gap:16px;flex-wrap:wrap;
+  animation:fadeUp 0.6s 0.5s ease both;
+}
+.btn-primary{
+  padding:14px 28px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border:none;border-radius:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;letter-spacing:1px;
+  cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all 0.3s;
+  box-shadow:0 0 30px rgba(59,130,246,0.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(59,130,246,0.5);}
+.btn-outline{
+  padding:14px 28px;
+  background:transparent;
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;letter-spacing:1px;
+  cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all 0.3s;
+}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);background:var(--glow);}
+
+/* FLOATING ORBS */
+.orb{
+  position:absolute;border-radius:50%;
+  filter:blur(80px);pointer-events:none;
+  animation:float 8s ease-in-out infinite;
+}
+.orb1{width:400px;height:400px;background:rgba(59,130,246,0.08);top:-100px;right:-100px;animation-delay:0s;}
+.orb2{width:300px;height:300px;background:rgba(139,92,246,0.06);bottom:100px;right:200px;animation-delay:3s;}
+.orb3{width:200px;height:200px;background:rgba(6,182,212,0.06);top:200px;right:400px;animation-delay:6s;}
+
+@keyframes float{0%,100%{transform:translateY(0px);}50%{transform:translateY(-30px);}}
+
+/* STATS ROW */
+.stats-row{
+  display:flex;gap:0;
+  border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  margin-top:48px;
+  background:var(--surface);
+  animation:fadeUp 0.6s 0.6s ease both;
+  max-width:580px;
+}
+.stat-item{
+  flex:1;padding:20px;text-align:center;
+  border-right:1px solid var(--border);
+  position:relative;
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+  font-family:'Syne',sans-serif;
+  font-size:28px;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat-label{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:4px;}
+
+/* SECTIONS */
+section{
+  padding:100px 60px;
+  position:relative;z-index:2;
+}
+.section-label{
+  font-size:11px;letter-spacing:4px;
+  color:var(--accent);text-transform:uppercase;
+  margin-bottom:16px;
+}
+.section-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(32px,5vw,52px);
+  font-weight:800;letter-spacing:-2px;
+  line-height:1;margin-bottom:48px;
+}
+
+/* SKILLS */
+#skills{background:var(--bg2);}
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+}
+.skill-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px;
+  transition:all 0.3s;
+  position:relative;overflow:hidden;
+}
+.skill-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--glow),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.skill-card:hover{border-color:var(--accent);transform:translateY(-4px);}
+.skill-card:hover::before{opacity:1;}
+.skill-icon{font-size:28px;margin-bottom:16px;}
+.skill-name{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:16px;margin-bottom:12px;
+}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{
+  padding:4px 10px;
+  background:rgba(59,130,246,0.1);
+  border:1px solid rgba(59,130,246,0.2);
+  border-radius:100px;
+  font-size:11px;color:var(--accent);
+  letter-spacing:0.5px;
+}
+
+/* PROJECTS */
+.projects-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+  gap:24px;
+}
+.project-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  transition:all 0.3s;
+  position:relative;
+}
+.project-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 20px 60px rgba(59,130,246,0.15);}
+.project-header{
+  padding:28px 28px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:flex-start;
+}
+.project-icon{font-size:32px;}
+.project-links{display:flex;gap:12px;}
+.project-link{
+  width:36px;height:36px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;color:var(--muted);
+  font-size:14px;transition:all 0.3s;
+}
+.project-link:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.project-body{padding:20px 28px 28px;}
+.project-title{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:18px;margin-bottom:10px;
+}
+.project-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px;}
+.project-stack{display:flex;flex-wrap:wrap;gap:8px;}
+.stack-tag{
+  padding:4px 10px;
+  background:rgba(139,92,246,0.1);
+  border:1px solid rgba(139,92,246,0.2);
+  border-radius:100px;
+  font-size:11px;color:var(--accent2);
+}
+.project-highlight{
+  margin-top:16px;padding:12px;
+  background:rgba(16,185,129,0.05);
+  border:1px solid rgba(16,185,129,0.15);
+  border-radius:8px;
+  font-size:12px;color:var(--green);
+}
+
+/* JOURNEY */
+#journey{background:var(--bg2);}
+.timeline{position:relative;max-width:800px;margin:0 auto;}
+.timeline::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:1px;background:linear-gradient(to bottom,transparent,var(--accent),var(--accent2),transparent);
+}
+.timeline-item{
+  padding-left:40px;padding-bottom:48px;position:relative;
+}
+.timeline-item::before{
+  content:'';position:absolute;left:-5px;top:6px;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 20px var(--accent);
+}
+.timeline-item.done::before{background:var(--green);box-shadow:0 0 20px var(--green);}
+.timeline-item.current::before{background:var(--accent2);box-shadow:0 0 20px var(--accent2);animation:pulse 2s infinite;}
+.timeline-day{
+  font-size:11px;letter-spacing:2px;
+  color:var(--accent);margin-bottom:8px;text-transform:uppercase;
+}
+.timeline-title{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:18px;margin-bottom:8px;
+}
+.timeline-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* CONTACT */
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;align-items:start;
+}
+.contact-info{display:flex;flex-direction:column;gap:20px;}
+.contact-item{
+  display:flex;align-items:center;gap:16px;
+  padding:20px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  text-decoration:none;color:var(--text);
+  transition:all 0.3s;
+}
+.contact-item:hover{border-color:var(--accent);background:var(--glow);}
+.contact-item-icon{
+  width:44px;height:44px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.contact-item-text{font-size:13px;}
+.contact-item-label{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;text-transform:uppercase;}
+
+.availability-card{
+  padding:36px;
+  background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1));
+  border:1px solid rgba(59,130,246,0.2);
+  border-radius:16px;
+}
+.avail-status{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:20px;
+}
+.avail-dot{
+  width:10px;height:10px;background:var(--green);
+  border-radius:50%;animation:pulse 2s infinite;
+}
+.avail-title{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:22px;margin-bottom:12px;
+}
+.avail-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+.avail-tags{display:flex;flex-wrap:wrap;gap:10px;}
+.avail-tag{
+  padding:8px 16px;
+  background:rgba(16,185,129,0.1);
+  border:1px solid rgba(16,185,129,0.2);
+  border-radius:100px;
+  font-size:12px;color:var(--green);
+}
+
+/* FOOTER */
+footer{
+  padding:40px 60px;
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  position:relative;z-index:2;
+  background:var(--bg);
+}
+.footer-text{font-size:12px;color:var(--muted);}
+.footer-love{color:var(--accent);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.reveal{
+  opacity:0;transform:translateY(30px);
+  transition:all 0.7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  #hero{padding:100px 24px 60px;}
+  section{padding:60px 24px;}
+  .contact-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:32px 24px;}
+  .hero-name{letter-spacing:-2px;}
+  .stats-row{max-width:100%;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MAK.</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Available for Internships
+    </div>
+
+    <h1 class="hero-name">
+      <span class="first">Mohammad<br>Adnan </span>
+      <span class="last">Khan</span>
+    </h1>
+
+    <p class="hero-role">
+      Aspiring <span>DevOps Engineer</span> · CSE Student · 90DaysOfDevOps
+    </p>
+
+    <p class="hero-desc">
+      Building the future, one deployment at a time.<br>
+      Docker · Kubernetes · AWS · CI/CD · Linux · Python
+    </p>
+
+    <div class="hero-terminal">
+      <div class="terminal-header">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <span class="terminal-title">adnan@devops ~ zsh</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">➜</span> <span class="t-cmd">whoami</span></div>
+        <div><span class="t-output">mohammad_adnan_khan</span></div>
+        <div><span class="t-prompt">➜</span> <span class="t-cmd">cat skills.txt</span></div>
+        <div><span class="t-var">Docker</span> | <span class="t-var">GitHub Actions</span> | <span class="t-var">AWS</span> | <span class="t-var">Linux</span></div>
+        <div><span class="t-prompt">➜</span> <span class="t-cmd">git log --oneline -1</span></div>
+        <div><span class="t-output">✅ Day 40 — GitHub Actions CI/CD Pipeline</span></div>
+        <div><span class="t-prompt">➜</span> <span class="t-comment"># 90DaysOfDevOps in progress...</span> <span class="cursor-blink"></span></div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-num" id="counter-days">40+</div>
+        <div class="stat-label">Days Done</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100+</div>
+        <div class="stat-label">Commits</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">11</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="https://github.com/AddyKhan257" target="_blank" class="btn-primary">
+        ⚡ View GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/mohammad-adnan-khan-8099802b1" target="_blank" class="btn-outline">
+        💼 LinkedIn
+      </a>
+      <a href="/cdn-cgi/l/email-protection#46222234322d2e272806212b272f2a6825292b" class="btn-outline">
+        📧 Hire Me
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">What I Work With</div>
+  <h2 class="section-title">Tech Stack</h2>
+
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-icon">🐳</div>
+      <div class="skill-name">Containerization</div>
+      <div class="skill-tags">
+        <span class="tag">Docker</span>
+        <span class="tag">Docker Compose</span>
+        <span class="tag">Docker Hub</span>
+        <span class="tag">Multi-stage Builds</span>
+        <span class="tag">Nginx</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-name">CI/CD & Automation</div>
+      <div class="skill-tags">
+        <span class="tag">GitHub Actions</span>
+        <span class="tag">YAML Pipelines</span>
+        <span class="tag">Workflow Automation</span>
+        <span class="tag">Git</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">☁️</div>
+      <div class="skill-name">Cloud & Infrastructure</div>
+      <div class="skill-tags">
+        <span class="tag">AWS</span>
+        <span class="tag">Linux (Ubuntu)</span>
+        <span class="tag">Kubernetes</span>
+        <span class="tag">Terraform</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🐍</div>
+      <div class="skill-name">Programming</div>
+      <div class="skill-tags">
+        <span class="tag">Python</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">React</span>
+        <span class="tag">Bash</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🗄️</div>
+      <div class="skill-name">Databases</div>
+      <div class="skill-tags">
+        <span class="tag">MySQL</span>
+        <span class="tag">MongoDB</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🔧</div>
+      <div class="skill-name">Tools & Editors</div>
+      <div class="skill-tags">
+        <span class="tag">VS Code</span>
+        <span class="tag">Vim</span>
+        <span class="tag">WSL2</span>
+        <span class="tag">Bash</span>
+        <span class="tag">yamllint</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">What I've Built</div>
+  <h2 class="section-title">Projects</h2>
+
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-icon">📝</div>
+        <div class="project-links">
+          <a href="https://github.com/AddyKhan257/To-Do-App" target="_blank" class="project-link">↗</a>
+          <a href="https://hub.docker.com/u/mohammadadnankhan" target="_blank" class="project-link">🐳</a>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Dockerized Todo App</div>
+        <div class="project-desc">Full-stack containerized web application with React frontend, Node.js backend, and MySQL database. Complete Docker Compose orchestration with networking, volumes, and healthchecks.</div>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">MySQL</span>
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Nginx</span>
+        </div>
+        <div class="project-highlight">
+          🚀 Multi-stage build reduced image size from ~800MB → ~25MB
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-icon">⚙️</div>
+        <div class="project-links">
+          <a href="https://github.com/AddyKhan257/github-actions-practice" target="_blank" class="project-link">↗</a>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">GitHub Actions CI/CD</div>
+        <div class="project-desc">Complete CI/CD pipeline from scratch using GitHub Actions. Automated build, test, and deployment workflows triggered on every git push with branch detection and environment reporting.</div>
+        <div class="project-stack">
+          <span class="stack-tag">GitHub Actions</span>
+          <span class="stack-tag">YAML</span>
+          <span class="stack-tag">CI/CD</span>
+          <span class="stack-tag">Linux</span>
+        </div>
+        <div class="project-highlight">
+          ✅ First green pipeline — CI/CD is now real, not a concept!
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-icon">🚀</div>
+        <div class="project-links">
+          <a href="https://github.com/AddyKhan257/90DaysOfDevOps" target="_blank" class="project-link">↗</a>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">90DaysOfDevOps Challenge</div>
+        <div class="project-desc">Daily structured DevOps learning journey — 40+ days completed with real projects, detailed markdown notes, PDF study guides, and daily public commits on GitHub.</div>
+        <div class="project-stack">
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Linux</span>
+          <span class="stack-tag">YAML</span>
+          <span class="stack-tag">GitHub Actions</span>
+          <span class="stack-tag">Python</span>
+        </div>
+        <div class="project-highlight">
+          🔥 11-day streak · 100+ contributions · Learning in public
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-icon">🌐</div>
+        <div class="project-links">
+          <a href="https://github.com/AddyKhan257" target="_blank" class="project-link">↗</a>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">DevOps Portfolio Website</div>
+        <div class="project-desc">This portfolio itself — deployed via GitHub Actions CI/CD pipeline to GitHub Pages. Automated deployment on every push to main branch using actions/deploy-pages.</div>
+        <div class="project-stack">
+          <span class="stack-tag">HTML/CSS/JS</span>
+          <span class="stack-tag">GitHub Actions</span>
+          <span class="stack-tag">GitHub Pages</span>
+          <span class="stack-tag">CI/CD</span>
+        </div>
+        <div class="project-highlight">
+          ⚡ Auto-deployed via GitHub Actions on every git push!
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="section-label">My Path</div>
+  <h2 class="section-title">DevOps Journey</h2>
+
+  <div class="timeline">
+    <div class="timeline-item done reveal">
+      <div class="timeline-day">Day 01 · Feb 2026</div>
+      <div class="timeline-title">Started 90DaysOfDevOps Challenge</div>
+      <div class="timeline-desc">Committed to learning DevOps end-to-end in 90 days. Joined TrainWithShubham community and started building in public on LinkedIn and GitHub.</div>
+    </div>
+    <div class="timeline-item done reveal">
+      <div class="timeline-day">Day 10</div>
+      <div class="timeline-title">Mastered Linux Fundamentals</div>
+      <div class="timeline-desc">File system, permissions, process management, bash scripting, SSH, networking commands — the foundation of every DevOps engineer.</div>
+    </div>
+    <div class="timeline-item done reveal">
+      <div class="timeline-day">Day 29-36</div>
+      <div class="timeline-title">Docker — Complete Containerization</div>
+      <div class="timeline-desc">From Docker basics to building a full-stack Dockerized Todo App (React + Node.js + MySQL). Multi-stage builds, Docker Compose, networking, volumes, healthchecks, Docker Hub.</div>
+    </div>
+    <div class="timeline-item done reveal">
+      <div class="timeline-day">Day 37-38</div>
+      <div class="timeline-title">YAML & Docker Revision</div>
+      <div class="timeline-desc">Deep dive into YAML syntax — the language of every DevOps pipeline. Block style, inline style, nested objects, multi-line strings, validation.</div>
+    </div>
+    <div class="timeline-item done reveal">
+      <div class="timeline-day">Day 39-40</div>
+      <div class="timeline-title">CI/CD & GitHub Actions</div>
+      <div class="timeline-desc">Built first GitHub Actions pipeline from scratch. Automated workflows, pipeline anatomy, and deployed this very portfolio using GitHub Actions!</div>
+    </div>
+    <div class="timeline-item current reveal">
+      <div class="timeline-day">Coming Next</div>
+      <div class="timeline-title">Kubernetes · AWS · Terraform · Monitoring</div>
+      <div class="timeline-desc">Next up: K8s orchestration, AWS cloud deployments, Infrastructure as Code with Terraform, and monitoring with Prometheus + Grafana.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="section-title">Let's Connect</h2>
+
+  <div class="contact-grid">
+    <div class="contact-info">
+      <a href="/cdn-cgi/l/email-protection#3d59594f4956555c537d5a505c5451135e5250" class="contact-item">
+        <div class="contact-item-icon">📧</div>
+        <div class="contact-item-text">
+          <div class="contact-item-label">Email</div>
+          <span class="__cf_email__" data-cfemail="ff9b9b8d8b94979e91bf98929e9693d19c9092">[email&#160;protected]</span>
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/mohammad-adnan-khan-8099802b1" target="_blank" class="contact-item">
+        <div class="contact-item-icon">💼</div>
+        <div class="contact-item-text">
+          <div class="contact-item-label">LinkedIn</div>
+          mohammad-adnan-khan-8099802b1
+        </div>
+      </a>
+      <a href="https://github.com/AddyKhan257" target="_blank" class="contact-item">
+        <div class="contact-item-icon">⚡</div>
+        <div class="contact-item-text">
+          <div class="contact-item-label">GitHub</div>
+          github.com/AddyKhan257
+        </div>
+      </a>
+      <a href="https://hub.docker.com/u/mohammadadnankhan" target="_blank" class="contact-item">
+        <div class="contact-item-icon">🐳</div>
+        <div class="contact-item-text">
+          <div class="contact-item-label">Docker Hub</div>
+          mohammadadnankhan
+        </div>
+      </a>
+    </div>
+
+    <div class="availability-card reveal">
+      <div class="avail-status">
+        <div class="avail-dot"></div>
+        <span style="font-size:12px;color:var(--green);letter-spacing:2px;text-transform:uppercase;">Available Now</span>
+      </div>
+      <div class="avail-title">Open to Internship Opportunities</div>
+      <div class="avail-desc">
+        I'm a 6th semester CSE student at RGPV Bhopal actively seeking DevOps / Cloud Engineer internship opportunities. I bring hands-on project experience, daily learning commitment, and a passion for automation.
+      </div>
+      <div class="avail-tags">
+        <span class="avail-tag">DevOps Intern</span>
+        <span class="avail-tag">Cloud Intern</span>
+        <span class="avail-tag">Remote / Hybrid</span>
+        <span class="avail-tag">Immediate Joiner</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-text">© 2026 Mohammad Adnan Khan — Built & deployed with <span class="footer-love">GitHub Actions</span></div>
+  <div class="footer-text">#90DaysOfDevOps · #DevOpsKaJosh · #TrainWithShubham</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Custom Cursor
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursorTrail');
+let mx=0,my=0,tx=0,ty=0;
+
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx-6+'px';
+  cursor.style.top=my-6+'px';
+});
+
+setInterval(()=>{
+  tx+=(mx-tx)*0.15;
+  ty+=(my-ty)*0.15;
+  trail.style.left=tx-16+'px';
+  trail.style.top=ty-16+'px';
+},16);
+
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cursor.style.transform='scale(2)';
+    trail.style.transform='scale(1.5)';
+  });
+  el.addEventListener('mouseleave',()=>{
+    cursor.style.transform='scale(1)';
+    trail.style.transform='scale(1)';
+  });
+});
+
+// Scroll Reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+},{threshold:0.1});
+
+document.querySe
