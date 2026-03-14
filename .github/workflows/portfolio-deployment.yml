@@ -5,15 +5,19 @@ on:
     push:
         branches: [main]
 
+    workflow_dispatch:
+
 permissions:
     pages: write
     id-token: write
-    
-
 
 jobs:
     deploy:
         runs-on: ubuntu-latest
+
+        environment: 
+            name: github-pages
+            url: ${{steps.deployment.outputs.page_url}}
         
         steps:
             # get access to you portfolio code via pre-build actions
@@ -27,6 +31,8 @@ jobs:
             #static code artifacts
             - name: upload static files
               uses: actions/upload-pages-artifact@v4
+              with:
+                path: "."
 
 
             - name: Deploy to GitHub pages
