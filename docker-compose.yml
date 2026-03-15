@@ -1,0 +1,8 @@
+services:
+
+  web:
+    image: ${DOCKER_USER}/github-actions-app
+    ports:
+      -"80:80"
+
+
